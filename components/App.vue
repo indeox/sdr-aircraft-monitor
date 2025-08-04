@@ -74,17 +74,8 @@
     <!-- Aircraft Table Component -->
     <aircraft-table :aircraft-list="aircraftList" :live-message="liveMessage"></aircraft-table>
 
-    <footer class="fixed bottom-0 right-0 text-right text-[10px] p-2 rounded-tl-lg">
-      <p>
-        <a
-          href="https://x.com/indeox"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-purple-300 hover:text-purple-100"
-          >@indeox</a
-        >
-      </p>
-    </footer>
+    <!-- Footer Component -->
+    <app-footer></app-footer>
   </main>
 </template>
 
@@ -124,6 +115,9 @@ export default {
     ),
     "aircraft-table": Vue.defineAsyncComponent(() =>
       window["vue3-sfc-loader"].loadModule("./components/AircraftTable.vue", options)
+    ),
+    "app-footer": Vue.defineAsyncComponent(() =>
+      window["vue3-sfc-loader"].loadModule("./components/Footer.vue", options)
     ),
   },
   data() {
