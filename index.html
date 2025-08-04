@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>SDR Aircraft Monitor</title>
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="SDR Aircraft Monitor" />
+    <meta
+      property="og:description"
+      content="Real-time aircraft tracking using RTL-SDR and WebUSB. Monitor live aircraft positions, altitudes, and flight data in your browser."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SDR Aircraft Monitor" />
+    <meta property="og:image" content="https://www.deepcobalt.com/labs/sdr-aircraft-monitor/opengraph-image.png?v2" />
+
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SDR Aircraft Monitor" />
+    <meta
+      name="twitter:description"
+      content="Real-time aircraft tracking using RTL-SDR and WebUSB. Monitor live aircraft positions, altitudes, and flight data in your browser."
+    />
+
+    <!-- Additional meta tags -->
+    <meta
+      name="description"
+      content="Real-time aircraft tracking using RTL-SDR and WebUSB. Monitor live aircraft positions, altitudes, and flight data in your browser."
+    />
+    <meta name="keywords" content="RTL-SDR, aircraft tracking, ADS-B, WebUSB, real-time radar, aviation" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1e0b3b 0%, #2d1b69 50%, #1e0b3b 100%);
+        min-height: 100vh;
+      }
+
+      a {
+        font-weight: 500;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* Glass morphism effects */
+      .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      /* Activity level styling with modern colors */
+      .activity-high {
+        background: rgba(34, 197, 94, 0.1) !important;
+        border-left: 4px solid #22c55e;
+      }
+
+      .activity-medium {
+        background: rgba(251, 191, 36, 0.1) !important;
+        border-left: 4px solid #f59e0b;
+      }
+
+      .activity-low {
+        background: rgba(239, 68, 68, 0.1) !important;
+        border-left: 4px solid #ef4444;
+      }
+
+      .activity-stale {
+        background: rgba(107, 114, 128, 0.05) !important;
+        border-left: 4px solid #6b7280;
+        opacity: 0.5;
+      }
+
+      .mapboxgl-popup-content {
+        padding: 8px !important;
+        background: rgba(0, 0, 0, 0.8) !important;
+        color: white !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .mapboxgl-popup-close-button {
+        top: 2px !important;
+        right: 5px !important;
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      /* Natural breathing animation for live signal */
+      @keyframes breathe {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(1.15);
+        }
+      }
+
+      .animate-breathe {
+        animation: breathe 2s ease-in-out infinite;
+      }
+
+      /* Aircraft marker hover effect */
+      .aircraft-marker {
+        transition: transform 0.2s ease;
+      }
+
+      .aircraft-marker:hover {
+        transform: scale(1.2);
+      }
+
+      /* Mapbox control styling */
+      .mapboxgl-ctrl-group {
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      }
+
+      .mapboxgl-ctrl-group button {
+        background: transparent !important;
+        color: white !important;
+      }
+
+      .mapboxgl-ctrl-group button:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen">
+    <div id="app" v-cloak></div>
+
+    <!-- Include RTL-SDR script -->
+    <script src="scripts/rtlsdr.js"></script>
+
+    <!-- Include utility modules bridge -->
+    <script type="module" src="scripts/modules-bridge.js"></script>
+
+    <!-- Vue 3 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+
+    <!-- Vue3 SFC Loader -->
+    <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+
+    <!-- Vue App -->
+    <script type="module">
+      const { createApp } = Vue;
+      const { loadModule } = window["vue3-sfc-loader"];
+
+      // Configure vue3-sfc-loader options
+      const options = {
+        moduleCache: {
+          vue: Vue,
+        },
+        async getFile(url) {
+          const res = await fetch(url);
+          if (!res.ok) {
+            throw Object.assign(new Error(res.statusText + " " + url), { res });
+          }
+          return {
+            getContentData: (asBinary) => (asBinary ? res.arrayBuffer() : res.text()),
+          };
+        },
+        addStyle(textContent) {
+          const style = document.createElement("style");
+          style.textContent = textContent;
+          const ref = document.head.getElementsByTagName("style")[0] || null;
+          document.head.insertBefore(style, ref);
+        },
+      };
+
+      // Initialize the Vue app when DOM is ready
+      function initVueApp() {
+        const app = createApp(Vue.defineAsyncComponent(() => loadModule("./components/App.vue", options)));
+        app.mount("#app");
+      }
+
+      // Auto-initialize if DOM is already loaded, otherwise wait for DOMContentLoaded
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initVueApp);
+      } else {
+        initVueApp();
+      }
+    </script>
+
+    <!-- Configuration - Replace with your own values -->
+    <script>
+      window.CONFIG = {
+        // Get MapBox token from https://console.mapbox.com/account/access-tokens/
+        MAPBOX_ACCESS_TOKEN: "",
+
+        // Optional: Replace with your GA4 measurement ID (e.g., "G-XXXXXXXXXX")
+        GOOGLE_ANALYTICS_ID: "",
+      };
+    </script>
+
+    <!-- Google Analytics (optional) -->
+    <script>
+      if (window.CONFIG.GOOGLE_ANALYTICS_ID) {
+        // Load Google Analytics
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${window.CONFIG.GOOGLE_ANALYTICS_ID}`;
+        document.head.appendChild(script);
+
+        // Initialize Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", window.CONFIG.GOOGLE_ANALYTICS_ID);
+      }
+    </script>
+  </body>
+</html>
