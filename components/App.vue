@@ -1,34 +1,39 @@
 <template>
   <!-- Intro Section -->
-  <section v-if="!appStarted" class="flex items-center justify-center min-h-screen text-white">
-    <div class="text-center">
-      <h1 class="text-6xl font-bold">SDR Aircraft Monitor</h1>
-      <p class="mb-20">
-        Based on
-        <a
-          href="https://charliegerard.dev"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sky-200 hover:text-white"
-          >Charlie Gerard</a
-        >'s amazing
-        <a
-          href="https://charliegerard.dev/blog/aircraft-radar-system-rtl-sdr-web-usb/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sky-200 hover:text-white"
-          >JavaScript Aircraft Radar System</a
+  <section v-if="!appStarted" class="flex flex-col min-h-screen text-white">
+    <div class="flex-1 flex items-center justify-center">
+      <div class="text-center">
+        <h1 class="text-6xl font-bold">SDR Aircraft Monitor</h1>
+        <p class="mb-20">
+          Based on
+          <a
+            href="https://charliegerard.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-200 hover:text-white"
+            >Charlie Gerard</a
+          >'s amazing
+          <a
+            href="https://charliegerard.dev/blog/aircraft-radar-system-rtl-sdr-web-usb/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-200 hover:text-white"
+            >JavaScript Aircraft Radar System</a
+          >
+        </p>
+        <button
+          @click="connectToAntenna"
+          class="bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white px-10 py-4 rounded-full text-xl font-semibold cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
         >
-      </p>
-      <button
-        @click="connectToAntenna"
-        class="bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white px-10 py-4 rounded-full text-xl font-semibold cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-      >
-        Connect
-      </button>
+          Connect
+        </button>
 
-      <p class="text-xs mt-2 opacity-50">Requires an RTL-SDR USB dongle<br />+ WebUSB capable browser</p>
+        <p class="text-xs mt-2 opacity-50">Requires an RTL-SDR USB dongle<br />+ WebUSB capable browser</p>
+      </div>
     </div>
+    
+    <!-- Footer Component -->
+    <app-footer></app-footer>
   </section>
 
   <!-- Main Application -->
