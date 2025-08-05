@@ -31,7 +31,7 @@
         <p class="text-xs mt-2 opacity-50">Requires an RTL-SDR USB dongle<br />+ WebUSB capable browser</p>
       </div>
     </div>
-    
+
     <!-- Footer Component -->
     <app-footer></app-footer>
   </section>
@@ -59,24 +59,30 @@
       </p>
     </div>
 
-    <header class="flex flex-col lg:flex-row gap-6 mb-6">
-      <!-- Live Bar Component -->
-      <live-bar :msg-received="msgReceived" :message-history="messageHistory"></live-bar>
+    <!-- Split-screen layout: Map (60%) | Data panels (40%) -->
+    <div class="flex flex-col xl:flex-row gap-3 mb-3">
+      <!-- Left side: Live Map (60% on large screens) -->
+      <div class="xl:w-3/5 w-full">
+        <live-map :aircraft-list="aircraftList"></live-map>
+      </div>
 
-      <!-- Live Map Component -->
-      <live-map :aircraft-list="aircraftList"></live-map>
+      <!-- Right side: Data panels (40% on large screens) -->
+      <div class="xl:w-2/5 w-full flex flex-col gap-3">
+        <!-- Live Bar Component -->
+        <live-bar :msg-received="msgReceived" :message-history="messageHistory"></live-bar>
 
-      <!-- Status Box Component -->
-      <status-box
-        :aircraft-list="aircraftList"
-        :total-messages="totalMessages"
-        :msg-received="msgReceived"
-        :message-history="messageHistory"
-      >
-      </status-box>
-    </header>
+        <!-- Status Box Component -->
+        <status-box
+          :aircraft-list="aircraftList"
+          :total-messages="totalMessages"
+          :msg-received="msgReceived"
+          :message-history="messageHistory"
+        >
+        </status-box>
+      </div>
+    </div>
 
-    <!-- Aircraft Table Component -->
+    <!-- Aircraft Table Component (full width below) -->
     <aircraft-table :aircraft-list="aircraftList" :live-message="liveMessage"></aircraft-table>
 
     <!-- Footer Component -->

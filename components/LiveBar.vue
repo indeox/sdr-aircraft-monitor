@@ -4,7 +4,9 @@
       <div class="flex items-center gap-4">
         <div class="relative">
           <div class="w-4 h-4 bg-gradient-to-br from-pink-400 to-purple-600 rounded-full shadow-lg"></div>
-          <div class="absolute inset-0 w-4 h-4 bg-gradient-to-br from-pink-400 to-purple-600 rounded-full animate-ping"></div>
+          <div
+            class="absolute inset-0 w-4 h-4 bg-gradient-to-br from-pink-400 to-purple-600 rounded-full animate-ping"
+          ></div>
           <div class="absolute inset-0 size-4 rounded-full animate-breathe">
             <div class="w-full h-full bg-gradient-to-br from-pink-400 to-purple-600 rounded-full"></div>
           </div>
@@ -12,19 +14,19 @@
         <div class="flex flex-col">
           <span class="font-bold text-sm tracking-wide uppercase">Live Signal</span>
           <span class="text-xs opacity-70">1090 MHz ADS-B</span>
-        </div>        
+        </div>
       </div>
     </div>
-    
-    <div 
-      ref="messageContainer"
-      class="h-[120px] grow overflow-hidden px-5 py-3"
-    >
-      <div v-if="!msgReceived || messageHistory.length === 0" class="text-center text-gray-400 text-sm py-8">
+
+    <div ref="messageContainer" class="h-[100px] grow overflow-hidden px-5 py-3">
+      <div
+        v-if="!msgReceived || messageHistory.length === 0"
+        class="text-center text-gray-400 text-sm py-8 h-full flex items-center justify-center"
+      >
         Waiting for incoming signals...
       </div>
-      <div 
-        v-for="(entry, index) in messageHistory.slice(-20)" 
+      <div
+        v-for="(entry, index) in messageHistory.slice(-20)"
         :key="index"
         class="text-[10px] font-mono flex items-start gap-3 opacity-80 hover:opacity-100 transition-opacity mb-1"
       >

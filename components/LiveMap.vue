@@ -1,17 +1,10 @@
 <template>
-  <div class="hidden lg:block aspect-[64/48] w-64 relative glass text-white rounded-lg shadow-2xl overflow-hidden">              
+  <div class="relative glass text-white rounded-lg shadow-2xl overflow-hidden h-96 xl:h-[450px]">
     <!-- Map container -->
-    <div 
-      v-if="!mapError" 
-      ref="mapContainer" 
-      class="absolute inset-0 w-full h-full rounded-lg"
-    ></div>
-    
+    <div v-if="!mapError" ref="mapContainer" class="absolute inset-0 w-full h-full rounded-lg"></div>
+
     <!-- Error message when Mapbox token is missing -->
-    <div 
-      v-if="mapError" 
-      class="absolute inset-0 flex items-center justify-center p-4"
-    >
+    <div v-if="mapError" class="absolute inset-0 flex items-center justify-center p-4">
       <div class="text-center text-xs text-gray-300">
         <div class="mb-2">🗺️</div>
         <div class="font-medium mb-1">Map Unavailable</div>
@@ -87,10 +80,10 @@ export default {
         });
 
         // Handle map errors (invalid token, network issues, etc.)
-        this.map.on('error', (e) => {
-          console.error('Mapbox error:', e);
+        this.map.on("error", (e) => {
+          console.error("Mapbox error:", e);
           if (e.error && e.error.message) {
-            if (e.error.message.includes('401')) {
+            if (e.error.message.includes("401")) {
               this.mapError = "Invalid Mapbox token";
             } else {
               this.mapError = "Map loading failed";
@@ -130,9 +123,8 @@ export default {
 
         // Start watching user location for ongoing updates
         this.requestUserLocation();
-        
       } catch (error) {
-        console.error('Map initialization failed:', error);
+        console.error("Map initialization failed:", error);
         this.mapError = "Map initialization failed";
       }
     },

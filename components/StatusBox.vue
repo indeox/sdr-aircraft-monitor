@@ -1,16 +1,20 @@
 <template>
-  <div class="glass text-white px-6 py-5 rounded-lg shadow-2xl min-w-64">      
-    <div class="flex flex-col gap-3">
+  <div class="glass text-white px-6 py-5 rounded-lg shadow-2xl min-w-64">
+    <div class="flex flex-col gap-1">
       <div class="flex justify-between items-center">
         <span class="text-xs opacity-70 uppercase tracking-wider">Aircraft Tracked</span>
-        <span class="font-mono font-bold text-2xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{{ aircraftList.length }}</span>
+        <span
+          class="font-mono font-bold text-sm bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+        >
+          {{ aircraftList.length }}
+        </span>
       </div>
-      
+
       <div class="flex justify-between items-center">
         <span class="text-xs opacity-70 uppercase tracking-wider">Active (1min)</span>
-        <span class="font-mono font-bold text-lg text-green-400">{{ activeAircraft.length }}</span>
-      </div>      
-      
+        <span class="font-mono font-bold text-sm text-green-400">{{ activeAircraft.length }}</span>
+      </div>
+
       <div class="flex justify-between items-center">
         <span class="text-xs opacity-70 uppercase tracking-wider">Avg/Aircraft</span>
         <span class="font-mono font-bold text-sm text-gray-200">{{ averageMessagesPerAircraft }}</span>
@@ -20,14 +24,14 @@
         <span class="text-xs opacity-70 uppercase tracking-wider">Total Messages</span>
         <span class="font-mono font-bold text-sm text-gray-200">{{ totalMessages.toLocaleString() }}</span>
       </div>
-      
+
       <div class="flex justify-between items-center">
         <span class="text-xs opacity-70 uppercase tracking-wider">Messages/sec</span>
         <span class="font-mono font-bold text-sm text-gray-200">{{ messagesPerSecond }}</span>
       </div>
-      
+
       <div class="border-t border-white/10 pt-3 mt-2">
-        <div class="flex justify-between items-center">            
+        <div class="flex justify-between items-center">
           <span class="text-xs opacity-70 uppercase tracking-wider">Session Time</span>
           <span class="font-mono font-bold text-sm text-purple-300">{{ uptime }}</span>
         </div>
