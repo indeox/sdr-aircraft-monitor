@@ -28,9 +28,9 @@
       <div
         v-for="(entry, index) in messageHistory.slice(-20)"
         :key="index"
-        class="text-[10px] font-mono flex items-start gap-3 opacity-80 hover:opacity-100 transition-opacity mb-1"
+        class="text-[9px] font-mono flex items-start gap-2 opacity-80 hover:opacity-100 transition-opacity mb-1"
       >
-        <span class="text-purple-300 flex-shrink-0 w-14">{{ formatTime(entry.timestamp) }}</span>
+        <span class="text-purple-300 flex-shrink-0">{{ formatTime(entry.timestamp) }}</span>
         <span class="break-all text-gray-200">{{ formatMessage(entry.message) }}</span>
       </div>
     </div>

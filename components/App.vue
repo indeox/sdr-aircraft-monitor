@@ -38,9 +38,9 @@
 
   <!-- Main Application -->
   <main v-if="appStarted" class="container mx-auto p-6">
-    <div class="flex flex-col text-center mb-8">
-      <h1 class="text-5xl font-bold text-white mb-4">SDR Aircraft Monitor</h1>
-      <p class="text-sm text-gray-300">
+    <div class="flex flex-col text-center mb-4">
+      <h1 class="text-5xl font-bold text-white">SDR Aircraft Monitor</h1>
+      <p class="text-xs text-gray-300">
         Based on
         <a
           href="https://charliegerard.dev"
