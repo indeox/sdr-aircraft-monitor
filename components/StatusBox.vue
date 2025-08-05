@@ -30,7 +30,9 @@
         <span class="font-mono font-bold text-sm text-gray-200">{{ messagesPerSecond }}</span>
       </div>
 
-      <div class="border-t border-white/10 pt-3 mt-2">
+      <hr class="my-1 border-white/10" />
+
+      <div>
         <div class="flex justify-between items-center">
           <span class="text-xs opacity-70 uppercase tracking-wider">Session Time</span>
           <span class="font-mono font-bold text-sm text-purple-300">{{ uptime }}</span>
