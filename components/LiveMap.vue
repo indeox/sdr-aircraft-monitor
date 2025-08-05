@@ -100,6 +100,14 @@ export default {
             }
           });
 
+          // Hide unwanted layer types
+          const hiddenLayers = ["marine", "ferry", "ship", "waterway", "transit"];
+          layers.forEach((layer) => {
+            if (hiddenLayers.some((keyword) => layer.id.includes(keyword))) {
+              this.map.setLayoutProperty(layer.id, "visibility", "none");
+            }
+          });
+
           // Style water with darker purple
           const waterLayers = layers.filter((layer) => layer.id.includes("water"));
           waterLayers.forEach((layer) => {
@@ -108,11 +116,11 @@ export default {
             }
           });
 
-          // Style roads with purple accent
-          const roadLayers = layers.filter((layer) => layer.id.includes("road"));
-          roadLayers.forEach((layer) => {
+          // Style roads with purple accent and force thin lines
+          layers.forEach((layer) => {
             if (layer.type === "line") {
               this.map.setPaintProperty(layer.id, "line-color", "#4c3a6e");
+              this.map.setPaintProperty(layer.id, "line-width", 1);
             }
           });
         });
