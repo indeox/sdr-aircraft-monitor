@@ -508,16 +508,19 @@
 
         var xtalFreq = Math.floor(XTAL_FREQ * (1 + ppm / 1000000));
         await com.i2c.open();
+
         // Check for R820T at address 0x34
-        var found = await R82xTuner.check(com, 0x34);
-        if (found) {
+        var is34 = true;
+        try {
+          await R82xTuner.check(com, 0x34);
+        } catch (error) {
+          var is34 = false;
+        }
+        
+        if (is34) {
           tuner = new R82xTuner(com, xtalFreq, 0x34);
         } else {
-          // Check for R828D at address 0x74
-          found = await R82xTuner.check(com, 0x74);
-          if (found) {
-            tuner = new R82xTuner(com, xtalFreq, 0x74);
-          }
+          tuner = new R82xTuner(com, xtalFreq, 0x74);
         }
         if (!tuner) {
           throw new Error('Sorry, your USB dongle has an unsupported tuner chip. ' +
