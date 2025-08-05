@@ -59,6 +59,6 @@ Built with Vue 3 and Tailwind CSS, and is intended as a "no build step" type of 
 
 ## Acknowledgments
 
-- [Many thanks to /u/Ok_Message2748/ for helping with adding & testing R820T/R828D (V4) support 💜](https://www.reddit.com/r/rtl_sdr/comments/1500000/comment/k1000000000000000000000000000000000000000/)
+- Many thanks to [/u/Ok_Message2748/](https://www.reddit.com/user/Ok_Message2748/) for helping with adding & testing R820T/R828D (V4) support 💜
 - [Charlie Gerard's JavaScript Aircraft Radar System](https://github.com/charliegerard/webusb-rtlsdr-aircraft-radar-system)
 - [Mode S and ADS-B decoding reference](https://mode-s.org/1090mhz/content/ads-b/3-airborne-position.html)
